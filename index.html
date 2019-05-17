@@ -4,12 +4,6 @@
 
 .axis { font: 14px sans-serif; }
 
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 2px;
-}
-
 </style>
 <body>
 
@@ -60,13 +54,7 @@ d3.csv("data.csv", function(error, data) {
   // Scale the range of the data
   x.domain(d3.extent(data, function(d) { return d.date; }));
   y.domain([0, d3.max(data, function(d) { return d.close; })]);
-/*
-  // Add the valueline path.
-  svg.append("path")
-      .data([data])
-      .attr("class", "line")
-      .attr("d", valueline);
-*/
+
    // Add dots
     var myCircle = svg.append('g')
       .selectAll("circle")
@@ -77,12 +65,12 @@ d3.csv("data.csv", function(error, data) {
       .attr("cy", function (d) { return y(d.close); } )
       .attr("r", 4)
       .style("opacity", 0.5)
-      /*
+      
       // Add brushing
       svg
           .call( d3.brush()                 // Add the brush feature using the d3.brush function
           .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-          //.on("start brush", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
+          .on("start brush", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
         )
 
       // Function that is triggered when brushing is performed
@@ -99,7 +87,7 @@ d3.csv("data.csv", function(error, data) {
               y1 = brush_coords[1][1];
           return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
       }              
-    */
+    
     /*
     //Add  horizontal grid
     svg.append('g')
