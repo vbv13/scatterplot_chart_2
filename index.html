@@ -3,7 +3,7 @@
 <style> /* set the CSS */
 
 .axis { font: 14px sans-serif; }
-.dot { background-color: lightseagreen; }
+.dot { fill: lightseagreen; }
 .selected {
   opacity: 1 !important;
   stroke: black;
@@ -102,10 +102,11 @@ d3.csv("data.csv", function(error, data) {
     .call(d3.axisLeft()
         .scale(y)
         .tickSize(-width, 0, 0)
-        .tickFormat(''))        
+        .tickFormat(''))
+        .style("opacity", 0.18)        
   
   // Add the X Axis
-  svg.append("g")
+  var xAxis = svg.append("g")
       .attr("class", "axis")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x)
@@ -117,9 +118,9 @@ d3.csv("data.csv", function(error, data) {
         .attr("transform", "rotate(-65)");
 
   // Add the Y Axis
-  svg.append("g")
+  var yAxis = svg.append("g")
       .attr("class", "axis")
-      .attr('transform', `translate(${width}, 0)`)
+      //.attr('transform', `translate(${width}, 0)`)
       .call(d3.axisLeft(y)
               .tickFormat(d3.format(".2n")));
 
