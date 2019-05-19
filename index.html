@@ -13,6 +13,10 @@
 </style>
 <body>
 
+    <div class='brushedList'>
+        <span>${brushedDots}</span>
+    </div>
+
 <!-- load the d3.js library -->    	
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
@@ -93,8 +97,19 @@ d3.csv("data.csv", function(error, data) {
               y0 = brush_coords[0][1],
               y1 = brush_coords[1][1];
           return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
-      }              
-    
+      }
+
+      //do-to: list of  dots that are right now in brushing area
+      var body = document.querySelector('body')
+      body.addEventListener('onmouseup', function () {
+        var brushedDots = document.querySelectorAll('selected')
+        console.log(brushedDots)
+        document.getElementsByClassName('brushedList').innerHTML = brushedDots
+      })  
+      /*
+      var filterCircle = myCircle.filter(dot => myCircle.className === 'selected')    //it's just static selector I need dynamic one, dependent on event
+      console.log(filterCircle)                  
+    */
     
     //Add  horizontal grid
     svg.append('g')
