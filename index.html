@@ -22,28 +22,28 @@
 <script>
 
 // set the dimensions and margins of the graph
-var margin = {top: 20, right: 20, bottom: 100, left: 50},
+const margin = {top: 20, right: 20, bottom: 100, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 // parse the date / time
-var parseTime = d3.timeParse("%I:%M:%S");
+const parseTime = d3.timeParse("%I:%M:%S");
 
 // set the ranges
-var x = d3.scaleTime().range([0, width]);
-var y = d3.scaleLinear()
+const x = d3.scaleTime().range([0, width]);
+const y = d3.scaleLinear()
       .domain([1, 6])
       .range([height, 0]);
 
 // define the line
-var valueline = d3.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.close); });
+const valueline = d3.line()
+    .x( d =>  x(d.date) )
+    .y( d => y(d.close) );
 
 // append the svg object to the body of the page
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
-var svg = d3.select("body")
+const svg = d3.select("body")
 .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -52,27 +52,27 @@ var svg = d3.select("body")
           "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
-d3.csv("data.csv", function(error, data) {
+d3.csv("data.csv", (error, data) => {
   if (error) throw error;
 
   // format the data
-  data.forEach(function(d) {
+  data.forEach( d => {
       d.date = parseTime(d.date);
       d.close = +d.close;
   });
 
   // Scale the range of the data
-  x.domain(d3.extent(data, function(d) { return d.date; }));
-  y.domain([0, d3.max(data, function(d) { return d.close; })]);
+  x.domain(d3.extent(data, d =>  d.date));
+  y.domain([0, d3.max(data, d => d.close )]);
 
    // Add dots
-    var myCircle = svg.append('g')
+    const myCircle = svg.append('g')
       .selectAll("circle")
       .data(data)
       .enter()
       .append("circle")
-      .attr("cx", function (d) { return x(d.date); } )
-      .attr("cy", function (d) { return y(d.close); } )
+      .attr("cx",  d =>  x(d.date) )
+      .attr("cy", d =>  y(d.close) )
       .attr("r", 4)
       .attr("class", "dot")
       .style("opacity", 0.5)
@@ -87,12 +87,12 @@ d3.csv("data.csv", function(error, data) {
       // Function that is triggered when brushing is performed
       function updateChart() {
         extent = d3.event.selection
-        myCircle.classed("selected", function(d){ return isBrushed(extent, x(d.date), y(d.close) ) } )
+        myCircle.classed("selected", d => isBrushed(extent, x(d.date), y(d.close) )  )
       }
 
       // A function that return TRUE or FALSE according if a dot is in the selection or not
       function isBrushed(brush_coords, cx, cy) {
-          var x0 = brush_coords[0][0],
+          let x0 = brush_coords[0][0],
               x1 = brush_coords[1][0],
               y0 = brush_coords[0][1],
               y1 = brush_coords[1][1];
@@ -100,9 +100,9 @@ d3.csv("data.csv", function(error, data) {
       }
 
       //do-to: list of  dots that are right now in brushing area
-      var body = document.querySelector('body')
-      body.addEventListener('mouseup', function () {
-        var brushedDots = document.querySelectorAll('selected')
+      const body = document.querySelector('body')
+      body.addEventListener('mouseup',  function()  {
+        let brushedDots = document.querySelectorAll('selected')
         console.log(brushedDots)
         document.getElementsByClassName('brushedList').innerHTML = brushedDots
       })  
@@ -121,7 +121,7 @@ d3.csv("data.csv", function(error, data) {
         .style("opacity", 0.18)        
   
   // Add the X Axis
-  var xAxis = svg.append("g")
+  const xAxis = svg.append("g")
       .attr("class", "axis")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x)
@@ -133,7 +133,7 @@ d3.csv("data.csv", function(error, data) {
         .attr("transform", "rotate(-65)");
 
   // Add the Y Axis
-  var yAxis = svg.append("g")
+  const yAxis = svg.append("g")
       .attr("class", "axis")
       //.attr('transform', `translate(${width}, 0)`)
       .call(d3.axisLeft(y)
