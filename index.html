@@ -101,13 +101,13 @@ d3.csv("data.csv", function(error, data) {
 
       //do-to: list of  dots that are right now in brushing area
       var body = document.querySelector('body')
-      body.addEventListener('onmouseup', function () {
+      body.addEventListener('mouseup', function () {
         var brushedDots = document.querySelectorAll('selected')
         console.log(brushedDots)
         document.getElementsByClassName('brushedList').innerHTML = brushedDots
       })  
       /*
-      var filterCircle = myCircle.filter(dot => myCircle.className === 'selected')    //it's just static selector I need dynamic one, dependent on event
+      var filterCircle = myCircle.filter(dot => myCircle.className === 'selected')
       console.log(filterCircle)                  
     */
     
