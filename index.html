@@ -13,12 +13,13 @@
 </style>
 <body>
 
-    <div class='brushedList'>
-        <span>${brushedDots}</span>
-    </div>
-
-<!-- load the d3.js library -->    	
+  <!-- load the d3.js library -->    	
 <script src="https://d3js.org/d3.v4.min.js"></script>
+
+<div class='brushedList'>
+        <span class="brushedListing"></span>
+</div>
+
 <script>
 
 // set the dimensions and margins of the graph
@@ -32,7 +33,7 @@ const parseTime = d3.timeParse("%I:%M:%S");
 // set the ranges
 const x = d3.scaleTime().range([0, width]);
 const y = d3.scaleLinear()
-      .domain([1, 6])
+      //.domain([1, 6])
       .range([height, 0]);
 
 // define the line
@@ -76,7 +77,7 @@ d3.csv("data.csv", (error, data) => {
       .attr("r", 4)
       .attr("class", "dot")
       .style("opacity", 0.5)
-      
+
       // Add brushing
       svg.append("g")
           .call( d3.brush()                 // Add the brush feature using the d3.brush function
@@ -99,13 +100,32 @@ d3.csv("data.csv", (error, data) => {
           return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
       }
 
+      /*
       //do-to: list of  dots that are right now in brushing area
+      document.querySelectorAll('circle.dot').forEach(function(circleDot) {
+        console.log(circleDot)
+        //circleDot.on()
+        document.getElementsByClassName('brushedListing').innerHTML = circleDot
+      })
+      */
       const body = document.querySelector('body')
       body.addEventListener('mouseup',  function()  {
-        let brushedDots = document.querySelectorAll('selected')
+        let brushedDots = document.querySelectorAll('.dot.selected')
         console.log(brushedDots)
-        document.getElementsByClassName('brushedList').innerHTML = brushedDots
+
+        for( let i=0; i < brushedDots.length; i++ ){
+          console.log('X =' + brushedDots[i].getAttribute('cx'))
+          console.log('Y =' + brushedDots[i].getAttribute('cy'))
+
+          document.getElementsByClassName('brushedListing').innerHTML = brushedDots[i].getAttribute('cx')
+        }
+        //console.log(brushedDots[brushedDots.length-1].getAttribute('cx'))
+        //document.getElementsByClassName('brushedListing').innerHTML = brushedDots.getAttribute('cx')
       })  
+      /*
+      d3.selectAll('body')
+        .on('mouseover', function mouseover(d) {alert('hhh');})
+        */
       /*
       var filterCircle = myCircle.filter(dot => myCircle.className === 'selected')
       console.log(filterCircle)                  
